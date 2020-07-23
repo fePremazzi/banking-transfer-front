@@ -6,10 +6,31 @@
   </h1>
   <br>
   <h4>
-    Schedule a transfer
+    Create or update a schedule
   </h4>
 
   <form [formGroup]="angForm" novalidate>
+
+    <div class="form-group">
+      <label>Transfer Id number:</label>
+      <input class="form-control" required formControlName="transferId" [disabled]="isDisabled" type="number">
+      <div
+        *ngIf="angForm.controls['transferId'].invalid && (angForm.controls['transferId'].dirty || angForm.controls['transferId'].touched)"
+        class="alert alert-danger">
+        <div *ngIf="angForm.controls['transferId'].errors.required">
+          Transfer Id number is required.
+        </div>
+        <div *ngIf="angForm.controls['transferId'].errors.min">
+          Transfer Id number must be at least 1
+        </div>
+      </div>
+      <input type="checkbox" name="myChk" id="myChk" (change)="isDisabled()" />
+      <label class="form-check-label" for="myChk">
+        Update transfer
+      </label>
+    </div>
+
+
     <div class="form-row">
 
       <div class="col">
@@ -96,43 +117,12 @@
 
   <br>
   <h4>
-    Delete a scheduleing by id
-  </h4>
-  <form [formGroup]="angDeleteForm" novalidate>
-
-    <div class="form-group">
-      <label>Transfer value:</label>
-      <input class="form-control" required formControlName="transferId" type="text">
-    </div>
-    <div
-      *ngIf="angDeleteForm.controls['transferId'].invalid && (angDeleteForm.controls['transferId'].dirty || angDeleteForm.controls['transferId'].touched)"
-      class="alert alert-danger">
-      <div *ngIf="angDeleteForm.controls['transferId'].errors.required">
-        Transfer id is required.
-      </div>
-      <div *ngIf="angDeleteForm.controls['transferId'].errors.pattern">
-        Transfer id must be an integer.
-      </div>
-      <div *ngIf="angDeleteForm.controls['transferId'].errors.min">
-        Transfer id must be a minimun value of 1.
-      </div>
-    </div>
-
-    <button (click)="deleteById()" type="submit" [disabled]="angDeleteForm.pristine || angDeleteForm.invalid"
-      class="btn btn-success">
-      Submit
-    </button>
-  </form>
-
-
-  <br>
-  <h4>
-    Search a scheduling by id
+    Get/Delete a schedled transfer
   </h4>
   <form [formGroup]="angFindForm" novalidate>
 
     <div class="form-group">
-      <label>Transfer value:</label>
+      <label>Transfer Id:</label>
       <input class="form-control" required formControlName="transferId" type="text">
     </div>
     <div
@@ -154,6 +144,12 @@
         <button (click)="findById()" type="submit" [disabled]="angFindForm.pristine || angFindForm.invalid"
           class="btn btn-success">
           Search
+        </button>
+      </div>
+      <div class="p-1">
+        <button (click)="deleteById()" type="submit" [disabled]="angFindForm.pristine || angFindForm.invalid"
+          class="btn btn-success">
+          Delete
         </button>
       </div>
       <div class="p-1">
