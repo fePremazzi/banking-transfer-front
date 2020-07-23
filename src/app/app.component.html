@@ -106,8 +106,8 @@
         </div>
       </div>
 
-
     </div>
+
     <br>
     <button (click)="createTransfer()" type="submit" [disabled]="angForm.pristine || angForm.invalid"
       class="btn btn-success">
@@ -115,56 +115,44 @@
     </button>
   </form>
 
-  <br>
-  <h4>
-    Get/Delete a schedled transfer
-  </h4>
-  <form [formGroup]="angFindForm" novalidate>
-
-    <div class="form-group">
-      <label>Transfer Id:</label>
-      <input class="form-control" required formControlName="transferId" type="text">
-    </div>
-    <div
-      *ngIf="angFindForm.controls['transferId'].invalid && (angFindForm.controls['transferId'].dirty || angFindForm.controls['transferId'].touched)"
-      class="alert alert-danger">
-      <div *ngIf="angFindForm.controls['transferId'].errors.required">
-        Transfer id is required.
-      </div>
-      <div *ngIf="angFindForm.controls['transferId'].errors.pattern">
-        Transfer id must be an integer.
-      </div>
-      <div *ngIf="angFindForm.controls['transferId'].errors.min">
-        Transfer id must be a minimun value of 1.
-      </div>
-    </div>
-    <div class="d-flex flex-row">
-
-      <div class="p-1">
-        <button (click)="findById()" type="submit" [disabled]="angFindForm.pristine || angFindForm.invalid"
-          class="btn btn-success">
-          Search
-        </button>
-      </div>
-      <div class="p-1">
-        <button (click)="deleteById()" type="submit" [disabled]="angFindForm.pristine || angFindForm.invalid"
-          class="btn btn-success">
-          Delete
-        </button>
-      </div>
-      <div class="p-1">
-        <button (click)="findAll()" type="submit" [disabled]="angFindForm.pristine || angFindForm.invalid"
-          class="btn btn-success">
-          List All
-        </button>
-      </div>
-
-    </div>
-
-
-  </form>
-
   <br />
-  <!-- <p>Form value: {{ angForm.value | json }}</p>
-  <p>Form status: {{ angForm.status | json }}</p> -->
-</div>
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Transfer management</li>
+    </ol>
+  </nav>
+  <div class="container">
+    <div class="card list-transfer">
+      <h5 class="card-header">Transfer list</h5>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Destination acc</th>
+              <th scope="col">Origin acc</th>
+              <th scope="col">Scheduled date</th>
+              <th scope="col">Opening date</th>
+              <th scope="col">Tax value</th>
+              <th scope="col">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tf of transferList">
+              <td>{{tf.id}}</td>
+              <td>{{tf.destinationAccount}}</td>
+              <td>{{tf.originAccount}}</td>
+              <td>{{tf.scheduledDate}}</td>
+              <td>{{tf.openingDate}}</td>
+              <td>{{tf.taxValue}}</td>
+              <td>{{tf.value}}</td>
+              <td>
+                <button type="button" class="btn btn-danger btn-sm ml-1" (click)="deleteById(tf.id)">Deletar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

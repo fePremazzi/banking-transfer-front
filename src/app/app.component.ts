@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ngx-custom-validators';
+import { DataService } from 'src/app/data.service';
+import { TransferResponse } from "../app/models/transfer-response";
+import { TransferRequest } from './models/transfer-request';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +16,20 @@ export class AppComponent {
   angDeleteForm: FormGroup;
   angFindForm: FormGroup;
   _isDisabled = true;
-  constructor(private fb: FormBuilder) {
+  transfer = {} as TransferResponse;
+  transferList: TransferResponse[];
+  
+  constructor(private fb: FormBuilder, private dataService: DataService) {
     this.createForm();
     this.createDeleteForm();
     this.createFindForm();
   }
+
+  ngOnInit() {
+    this.findAll();
+  }
+
+
   createForm() {
     this.angForm = this.fb.group({
       transferId: [{ value: 0, disabled: this._isDisabled }, [Validators.pattern("^[0-9]*$"), Validators.min(0)]],
@@ -37,20 +49,30 @@ export class AppComponent {
       transferId: ['', [Validators.pattern("^[0-9]*$"), Validators.min(1)]]
     });
   }
+
+
   public createTransfer(): void {
     console.log("createTransfer")
   }
 
-  public deleteById(): void {
-    console.log("deleteById")
+  public deleteById(id: number): void {
+    this.dataService.deleteTransfer(id).subscribe(() => {
+      this.findAll();
+    })
   }
 
-  public findById(): void {
-    console.log("findById")
+  public findById(id: number): void {
+    this.dataService.getTransferById(id).subscribe((data: TransferResponse) =>{
+      this.transfer = data;
+      console.log(this.transfer);
+      
+    });
   }
 
   public findAll(): void {
-    console.log("findAll")
+    this.dataService.getTransfers().subscribe((data: TransferResponse[])=>{
+      this.transferList = data;
+    })  
   }
 
   isDisabled() {
@@ -65,4 +87,3 @@ export class AppComponent {
   }
 
 }
-//2020/05/05
