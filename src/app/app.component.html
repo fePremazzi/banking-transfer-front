@@ -89,7 +89,7 @@
 
 
       <div class="col">
-        <label>Date to transfer (yyyy-MM-dd):</label>
+        <label>Date to transfer:</label>
         <input class="form-control" [(ngModel)]="transferRequest.scheduledDate" minlength="10" maxlength="10" required formControlName="scheduledDate" type="date">
         <div
           *ngIf="angForm.controls['scheduledDate'].invalid && (angForm.controls['scheduledDate'].dirty || angForm.controls['scheduledDate'].touched)"
