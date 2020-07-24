@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+    front-transfer:
+        image: fepremazzi/front-transfer
+        ports:
+            - 4201:4200
+    backend-transfer:
+        image: fepremazzi/banking-transfer
+        ports:
+            - 8080:8080
