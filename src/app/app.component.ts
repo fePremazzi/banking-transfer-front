@@ -17,6 +17,7 @@ export class AppComponent {
   angFindForm: FormGroup;
   _isDisabled = true;
   transfer = {} as TransferResponse;
+  transferRequest = {} as TransferRequest;
   transferList: TransferResponse[];
   
   constructor(private fb: FormBuilder, private dataService: DataService) {
@@ -52,7 +53,18 @@ export class AppComponent {
 
 
   public createTransfer(): void {
-    console.log("createTransfer")
+    this.validDate();
+    if (this.transferRequest.id !== 0 && this.transferRequest.id !== undefined && this.transferRequest.id !== null)  {
+      this.dataService.updateTransfer(this.transferRequest).subscribe(() => {
+        this.findAll();
+      });
+      this.angForm.reset()
+    } else {
+      this.dataService.saveTransfer(this.transferRequest).subscribe(() => {
+        this.findAll();
+      });
+      this.angForm.reset()
+    }
   }
 
   public deleteById(id: number): void {
@@ -74,6 +86,15 @@ export class AppComponent {
       this.transferList = data;
     })  
   }
+
+  public validDate():void{
+    this.transferRequest.scheduledDate = this.transferRequest.scheduledDate.replace(/\./gi, "-").replace(/\//gi, "-");
+  }
+
+  public editTransfer(transferRequest: TransferRequest) {
+    this.transferRequest = transferRequest;
+  }
+
 
   isDisabled() {
     if (this._isDisabled) {

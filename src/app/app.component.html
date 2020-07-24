@@ -9,11 +9,11 @@
     Create or update a schedule
   </h4>
 
-  <form [formGroup]="angForm" novalidate>
+  <form [formGroup]="angForm" (ngSubmit)="createTransfer()" novalidate>
 
     <div class="form-group">
       <label>Transfer Id number:</label>
-      <input class="form-control" required formControlName="transferId" [disabled]="isDisabled" type="number">
+      <input class="form-control" [(ngModel)]="transferRequest.id" required formControlName="transferId" [disabled]="isDisabled" type="number">
       <div
         *ngIf="angForm.controls['transferId'].invalid && (angForm.controls['transferId'].dirty || angForm.controls['transferId'].touched)"
         class="alert alert-danger">
@@ -35,7 +35,7 @@
 
       <div class="col">
         <label>Origin account number:</label>
-        <input class="form-control" minlength="6" maxlength="6" required formControlName="originAccount" type="text">
+        <input class="form-control" [(ngModel)]="transferRequest.originAccount" minlength="6" maxlength="6" required formControlName="originAccount" type="text">
         <div
           *ngIf="angForm.controls['originAccount'].invalid && (angForm.controls['originAccount'].dirty || angForm.controls['originAccount'].touched)"
           class="alert alert-danger">
@@ -50,7 +50,7 @@
 
       <div class="col">
         <label>Destination account number:</label>
-        <input class="form-control" minlength="6" maxlength="6" required formControlName="destinationAccount"
+        <input class="form-control" [(ngModel)]="transferRequest.destinationAccount" minlength="6" maxlength="6" required formControlName="destinationAccount"
           type="text">
         <div
           *ngIf="angForm.controls['destinationAccount'].invalid && (angForm.controls['destinationAccount'].dirty || angForm.controls['destinationAccount'].touched)"
@@ -71,7 +71,7 @@
 
       <div class="col">
         <label>Transfer value:</label>
-        <input class="form-control" required formControlName="transferValue" type="text">
+        <input class="form-control" [(ngModel)]="transferRequest.value" required formControlName="transferValue" type="text">
         <div
           *ngIf="angForm.controls['transferValue'].invalid && (angForm.controls['transferValue'].dirty || angForm.controls['transferValue'].touched)"
           class="alert alert-danger">
@@ -89,8 +89,8 @@
 
 
       <div class="col">
-        <label>Date to transfer (yyyy/MM/dd):</label>
-        <input class="form-control" minlength="10" maxlength="10" required formControlName="scheduledDate" type="text">
+        <label>Date to transfer (yyyy-MM-dd):</label>
+        <input class="form-control" [(ngModel)]="transferRequest.scheduledDate" minlength="10" maxlength="10" required formControlName="scheduledDate" type="date">
         <div
           *ngIf="angForm.controls['scheduledDate'].invalid && (angForm.controls['scheduledDate'].dirty || angForm.controls['scheduledDate'].touched)"
           class="alert alert-danger">
@@ -109,7 +109,7 @@
     </div>
 
     <br>
-    <button (click)="createTransfer()" type="submit" [disabled]="angForm.pristine || angForm.invalid"
+    <button type="submit" [disabled]="angForm.pristine || angForm.invalid"
       class="btn btn-success">
       Submit
     </button>
@@ -130,10 +130,10 @@
           <thead>
             <tr>
               <th scope="col">Id</th>
-              <th scope="col">Destination acc</th>
               <th scope="col">Origin acc</th>
-              <th scope="col">Scheduled date</th>
-              <th scope="col">Opening date</th>
+              <th scope="col">Destination acc</th> 
+              <th scope="col">Opening date</th>             
+              <th scope="col">Scheduled date</th>              
               <th scope="col">Tax value</th>
               <th scope="col">Value</th>
             </tr>
@@ -141,13 +141,14 @@
           <tbody>
             <tr *ngFor="let tf of transferList">
               <td>{{tf.id}}</td>
-              <td>{{tf.destinationAccount}}</td>
               <td>{{tf.originAccount}}</td>
-              <td>{{tf.scheduledDate}}</td>
-              <td>{{tf.openingDate}}</td>
+              <td>{{tf.destinationAccount}}</td> 
+              <td>{{tf.openingDate}}</td>             
+              <td>{{tf.scheduledDate}}</td>              
               <td>{{tf.taxValue}}</td>
               <td>{{tf.value}}</td>
               <td>
+                <button type="button" class="btn btn-warning btn-sm" (click)="editTransfer(tf)">Editar</button>
                 <button type="button" class="btn btn-danger btn-sm ml-1" (click)="deleteById(tf.id)">Deletar</button>
               </td>
             </tr>
