@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "SchedulerBankingTransfer"
+    }
+  },
+  "defaultProject": "SchedulerBankingTransfer",
+  "cli": {
+    "analytics": false
+  }
 }

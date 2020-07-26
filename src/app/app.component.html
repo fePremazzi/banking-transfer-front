@@ -11,26 +11,6 @@
 
   <form [formGroup]="angForm" (ngSubmit)="createTransfer()" novalidate>
 
-    <div class="form-group">
-      <label>Transfer Id number:</label>
-      <input class="form-control" [(ngModel)]="transferRequest.id" required formControlName="transferId" [disabled]="isDisabled" type="number">
-      <div
-        *ngIf="angForm.controls['transferId'].invalid && (angForm.controls['transferId'].dirty || angForm.controls['transferId'].touched)"
-        class="alert alert-danger">
-        <div *ngIf="angForm.controls['transferId'].errors.required">
-          Transfer Id number is required.
-        </div>
-        <div *ngIf="angForm.controls['transferId'].errors.min">
-          Transfer Id number must be at least 1
-        </div>
-      </div>
-      <input type="checkbox" name="myChk" id="myChk" (change)="isDisabled()" />
-      <label class="form-check-label" for="myChk">
-        Update transfer
-      </label>
-    </div>
-
-
     <div class="form-row">
 
       <div class="col">
@@ -148,8 +128,8 @@
               <td>{{tf.taxValue}}</td>
               <td>{{tf.value}}</td>
               <td>
-                <button type="button" class="btn btn-warning btn-sm" (click)="editTransfer(tf)">Editar</button>
-                <button type="button" class="btn btn-danger btn-sm ml-1" (click)="deleteById(tf.id)">Deletar</button>
+                <button type="button" class="btn btn-warning btn-sm" (click)="editTransfer(tf)">Edit</button>
+                <button type="button" class="btn btn-danger btn-sm ml-1" (click)="deleteById(tf.id)">Delete</button>
               </td>
             </tr>
           </tbody>
